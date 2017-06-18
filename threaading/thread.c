@@ -4,24 +4,21 @@
 //  Date    : 17 Jun 2017
 //  Source  : http://ashishagarwal.org/2011/02/13/multicore-programming-with-pthreads/
 //
-#include <stdio.h>
 #include <string.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 
 
 // Global space
 pthread_t tid[2];
-int counter;
 
 void* doSomeThing(void *arg) {
-    unsigned long i = 0;
-    counter += 1;
-    printf("\n Job %d started\n", counter);
-
-    for(i=0; i<(0xFFFFFFFF);i++);
-    printf("\n Job %d finished\n", counter);
+    int i = 0;
+    for(i=0; i < 10;i++) {
+        printf("%d\n", i);
+    }
 
     return NULL;
 }
