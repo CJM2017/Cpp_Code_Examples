@@ -2,6 +2,7 @@
 //  Project : Managing Threads in C 
 //  Author  : Connor McCann 
 //  Date    : 17 Jun 2017
+//  Source  : http://ashishagarwal.org/2011/02/13/multicore-programming-with-pthreads/
 //
 #include <stdio.h>
 #include <string.h>
