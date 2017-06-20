@@ -10,7 +10,11 @@
 int main(void) {
     fifo_t F;
     init_fifo(&F);
-    F.messages[0] = "hello";
-    printf("%s\n", F.messages[0]);
+    put_fifo(&F, "Hello");
+    put_fifo(&F, "cruel");
+    put_fifo(&F, "world");
+    char *msg = get_fifo(&F);
+    printf("%s\n", msg);
+    printf("%d\n",fifo_size(&F));
     return 0;
 }
