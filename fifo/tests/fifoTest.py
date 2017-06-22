@@ -1,10 +1,16 @@
 #!/Users/connormccann/anaconda/bin/python3.5
 
 import sys
+import unittest
+import subprocess as sp
+import os
 
 
-def main():
-    print("Hello world")
+class TestFIFO(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        super(TestFIFO, cls).setUpClass()
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(unittest.main())
