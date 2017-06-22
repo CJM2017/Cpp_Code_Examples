@@ -7,7 +7,7 @@ make
 printf "\n\n"
 
 # Run test file
-./runTest
+./runMain
 
 # Need to add the ability to only run the program 
 # if the make is successful which means i need an echo

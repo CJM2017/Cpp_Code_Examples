@@ -7,25 +7,42 @@
 #include "string_fifo.h"
 
 
-void init_fifo(fifo_t *F, int queueSize) {
+void init_fifo(fifo_t *F, int queueSize, bool allowedToGrow) {
     // Set the capacity of the string array
-    F->capacity = queueSize;
+    F->autoScale = (allowedToGrow == true) ? true : false;
+    F->capacity = (queueSize != 0) ? queueSize : MAXINFO;
     F->messages = (char**) malloc(sizeof(char*) * F->capacity);
-
     // Put both pointers at 0th position
     F->wptr = 0;
     F->rptr = 0;
+    // Set the size to be zero 
+    F->size = 0;
+
     return;
 }
 
 void put_fifo(fifo_t *F, char *msg) {
-    if (((F->wptr + 1) % MAXINFO) != F->rptr) {
+    if (((F->wptr + 1) % F->capacity) != F->rptr) {
         // Add the message
         F->messages[F->wptr] = (char*) malloc(sizeof(msg));
         F->messages[F->wptr] = msg;
         // Adjust the pointer
-        F->wptr = (F->wptr + 1) % MAXINFO; 
+        F->wptr = (F->wptr + 1) % F->capacity; 
     }
+    else if (F->autoScale) {
+        // Expand the size of the array by 10 string pointers
+        F->messages = (char**) realloc(F->messages, sizeof(char*) * (F->size + 10));
+        F->capacity += 10;
+        // Add the message
+        F->messages[F->wptr] = (char*) malloc(sizeof(msg));
+        F->messages[F->wptr] = msg;
+        // Adjust the pointer
+        F->wptr = (F->wptr + 1) % F->capacity; 
+    }
+    // Adjust the size
+    F->size++;
+
+    return;
 }
 
 char* get_fifo(fifo_t *F) {
@@ -33,18 +50,24 @@ char* get_fifo(fifo_t *F) {
     if (F->rptr != F->wptr) {
         // Get the message from the queue
         msg = F->messages[F->rptr];
-        F->rptr = (F->rptr + 1) % MAXINFO;
+        // Reduce the size
+        F->size--;
+        // Adjust the read pointer
+        F->rptr = (F->rptr + 1) % F->capacity;
+
         return msg;
     }
-    return "None";
+    else {
+        return "None";
+    }
 }
 
 unsigned fifo_size(fifo_t *F) {
     if (F->wptr >= F->rptr) {
-        return F->wptr - F->rptr + 1;
+        return F->wptr - F->rptr;
     }
     else {
-        return MAXINFO - (F->rptr - F->wptr);
+        return F->capacity - (F->rptr - F->wptr);
     }
 }
 //
@@ -83,10 +106,3 @@ unsigned fifo_size(fifo_t *F) {
 //  --------------------------
 //
 // Cannot put beyond this
-
-
-
-
-
-
-

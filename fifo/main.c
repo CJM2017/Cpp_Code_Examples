@@ -9,15 +9,17 @@
 
 int main(void) {
     fifo_t F;
-    init_fifo(&F, 3);
+    init_fifo(&F, 3, true);
     put_fifo(&F, "Hello");
     put_fifo(&F, "cruel");
     put_fifo(&F, "world!!!!");
 
+    printf("The capacity is: %d\n",F.capacity);
+    printf("The size is: %d\n",F.size);
     char *msg1 = get_fifo(&F);
     char *msg2 = get_fifo(&F);
     char *msg3 = get_fifo(&F);
     printf("%s\n", msg3);
-    printf("%d\n",fifo_size(&F));
+    
     return 0;
 }
