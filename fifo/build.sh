@@ -9,3 +9,6 @@ printf "\n\n"
 # Run test file
 ./runTest
 
+# Need to add the ability to only run the program 
+# if the make is successful which means i need an echo
+# or program exit condition of some kind

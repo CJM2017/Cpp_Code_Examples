@@ -3,10 +3,15 @@
 //  Author  : Connor McCann 
 //  Date    : 17 Jun 2017
 //
+#include <stdlib.h>
 #include "string_fifo.h"
 
 
-void init_fifo(fifo_t *F) {
+void init_fifo(fifo_t *F, int queueSize) {
+    // Set the capacity of the string array
+    F->capacity = queueSize;
+    F->messages = (char**) malloc(sizeof(char*) * F->capacity);
+
     // Put both pointers at 0th position
     F->wptr = 0;
     F->rptr = 0;
@@ -15,14 +20,18 @@ void init_fifo(fifo_t *F) {
 
 void put_fifo(fifo_t *F, char *msg) {
     if (((F->wptr + 1) % MAXINFO) != F->rptr) {
+        // Add the message
+        F->messages[F->wptr] = (char*) malloc(sizeof(msg));
         F->messages[F->wptr] = msg;
+        // Adjust the pointer
         F->wptr = (F->wptr + 1) % MAXINFO; 
     }
 }
 
 char* get_fifo(fifo_t *F) {
-    char * msg;
+    char *msg;
     if (F->rptr != F->wptr) {
+        // Get the message from the queue
         msg = F->messages[F->rptr];
         F->rptr = (F->rptr + 1) % MAXINFO;
         return msg;

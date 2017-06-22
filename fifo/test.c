@@ -9,12 +9,15 @@
 
 int main(void) {
     fifo_t F;
-    init_fifo(&F);
+    init_fifo(&F, 3);
     put_fifo(&F, "Hello");
     put_fifo(&F, "cruel");
-    put_fifo(&F, "world");
-    char *msg = get_fifo(&F);
-    printf("%s\n", msg);
+    put_fifo(&F, "world!!!!");
+
+    char *msg1 = get_fifo(&F);
+    char *msg2 = get_fifo(&F);
+    char *msg3 = get_fifo(&F);
+    printf("%s\n", msg3);
     printf("%d\n",fifo_size(&F));
     return 0;
 }
