@@ -1,4 +1,4 @@
-#!/Users/connormccann/anaconda/bin/python3.5
+#!/usr/bin/python3.5
 
 import sys
 import unittest
@@ -11,6 +11,10 @@ class TestFIFO(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(TestFIFO, cls).setUpClass()
+
+    def testDefaultQueueSize(self):
+    	
+
 
 if __name__ == "__main__":
     sys.exit(unittest.main())
